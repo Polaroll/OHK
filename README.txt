@@ -1,7 +1,7 @@
-One Handed Keyboard
+# One Handed Keyboard
 
-Idea - Jarod Hakala
-Developer - Ethan Houser
+**Idea** - Jarod Hakala
+**Developer** - Ethan Houser
 
 The One Handed Keyboard is a system designed to allow for typing with one hand by the use of finger binary. There are 30 usable combinations of finger binary that allow for the assigning and use of letters and punctuation. 
 

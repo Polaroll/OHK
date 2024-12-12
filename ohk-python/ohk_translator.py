@@ -1,38 +1,52 @@
 def main():
     
-    print()
+    print() # Spacer
 
-    user_msg = input("Input OHK message to translate: ")
-    user_msg_list = convert_msg_to_list(user_msg)
-    translated_msg = translate_msg(user_msg_list)
+    button_map = {1: '1', 2: '2', 3: '3', 4: '4', 5: '5'}
 
-    character_count = 0
-    for character in translated_msg:
-        character_count += 1
-        print(character, end="")
-        if character == "." or character == "?" or character == "!":
-            print()
-            character_count = 0
-        if character_count > 100 and character == " " : 
-            print()
-            character_count = 0
+    button_map = remap_buttons(button_map)
+    msg = input("Input OHK message to translate: ") # String
+    msg_list = convert_msg_to_list(msg) # List of strings
+    preprocessed_msg_list = preprocess_msg(msg_list, button_map)
+
+    translated_msg = translate_msg(preprocessed_msg_list)
+
+    print() # Spacer
+
+    terminal_print(translated_msg)
+
+    print() # Spacer
 
 def convert_msg_to_list(user_msg):
-    # Converts the user message to a list to allow for easy comparison of inputs in translation
+    ''' Converts the user message to a list to allow for easy comparison of inputs in translation '''
     user_msg_list = user_msg.split()
     return user_msg_list
 
+def preprocess_msg(user_msg_list, button_map):
+    ''' Converts from button map to numbers and sorts the numbers in each letter '''
+
+
+    # Takes each list item and converts each char in the list item to int according to the button map
+    for i in range(len(user_msg_list)): 
+        letter_list = list(user_msg_list[i]) 
+
+        # Converts each letter's chars into integers according to button mapping
+        for j in range(len(letter_list)): 
+            for key, button in button_map.items(): 
+                if letter_list[j] == button:
+                    letter_list[j] = key
+
+        letter_list.sort()
+        user_msg_list[i] = "".join(letter_list)
+        user_msg_list[i] = int(user_msg_list[i])
+
+    return user_msg_list
+
 def translate_msg(user_msg_list):
-    # sorts out the numbers inputed from the OHK in ascending order
+    ''' Receives a list of numbers then translates them into letters '''
+
     for letter in range(len(user_msg_list)):
-        if len(user_msg_list[letter]) > 1 :
-            letter_sort = list(user_msg_list[letter])
-            letter_sort.sort()
-            user_msg_list[letter] = "".join(letter_sort)
-        
-        user_msg_list[letter] = int(user_msg_list[letter])
-    
-        # Translates the users button inputs into letters
+
         match user_msg_list[letter]:
             case 1:
                 user_msg_list[letter] = "a"
@@ -96,10 +110,34 @@ def translate_msg(user_msg_list):
                 user_msg_list[letter] = "."
             case 12345:
                 user_msg_list[letter] = " "
+            case _:
+                user_msg_list[letter] = "error"
 
     return user_msg_list
     
+def remap_buttons(button_map):
+    ''' Gets the keys the user wishes to use for the OHK '''
 
+    button_1 = input("Key for thumb: ").lower()
+    button_2 = input("Key for pointer: ").lower()
+    button_3 = input("Key for middle: ").lower()
+    button_4 = input("Key for ring: ").lower()
+    button_5 = input("Key for pinky: ").lower()
+    button_map = {'1': button_1, '2': button_2, '3': button_3, '4': button_4, '5': button_5}
+    return button_map
+
+def terminal_print(msg):
+    ''' Prints the message in a user friendly way '''
+    char_count = 0
+    for char in msg:
+        char_count += 1
+        print(char, end="")
+        if char == "." or char == "?" or char == "!":
+            print()
+            char_count = 0
+        if char_count > 100 and char == " " : 
+            print()
+            char_count = 0
 
 if __name__ == "__main__":
     main()
