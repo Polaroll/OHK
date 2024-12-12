@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Handed Keyboard</title>
+    <link rel="stylesheet" href="styles/main.css">
+</head>
+<body>
+    <h1>One Handed Keyboard</h1>
+    <p class="text">
+        Welcome to the One Handed Keyboard! This website is designed to test the idea of using only your five fingers
+        to be able to type the entire alphabet. Included below are options to select which buttons will be used by each finger,
+        as well as the text box where you will input your key presses and see the translated message appear below. The key for
+        which combination of fingers will create which letter is at the bottom of the page. Enjoy!
+        <br><br>
+        P.S. Don't hold down the buttons too long or it will mess up the auto spacing! Hit "Control" to fix this. <br>
+        I have not implemented changing the fingers yet! You will have to stick with buiop.
+    </p>
+
+    <br><br>
+
+    <div id="fingering">
+        <label for="finger-1">1<br>(Thumb)</label>
+        <input type="text" id="finger-1" value="b">
+        
+        <label for="finger-2">2<br>(Index)</label>
+        <input type="text" id="finger-2" value="u">
+        
+        <label for="finger-3">3<br>(Middle)</label>
+        <input type="text" id="finger-3" value="i">
+        
+        <label for="finger-4">4<br>(Ring)</label>
+        <input type="text" id="finger-4" value="o">
+        
+        <label for="finger-5">5<br>(Pinky)</label>
+        <input type="text" id="finger-5" value="p">
+    </div>
+
+    <br>
+    <br>
+
+
+    <label class="label-font" for="ohk-input">Input</label>
+    <br>
+
+    <textarea name="ohk-input" id="input" cols="50" rows="10"></textarea>
+    <br>
+    <br>
+
+    <label class="label-font" for="ohk-output">Output</label>
+    <br>
+
+    <textarea name="oohk-output" id="output" cols="50" rows="10"></textarea>
+    <br>
+    <br>
+    <br>
+
+    <h3>Key</h3>
+    <table class="center">
+        <tr>
+            <th id="col1">Fingering</th>
+            <th id="col2">Letter</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>A</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>E</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>I</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>O</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>U</td>
+        </tr>
+        <tr>
+            <td>12</td>
+            <td>B</td>
+        </tr>
+        <tr>
+            <td>13</td>
+            <td>C</td>
+        </tr>
+        <tr>
+            <td>14</td>
+            <td>D</td>
+        </tr>
+        <tr>
+            <td>15</td>
+            <td>F</td>
+        </tr>
+        <tr>
+            <td>23</td>
+            <td>G</td>
+        </tr>
+        <tr>
+            <td>24</td>
+            <td>H</td>
+        </tr>
+        <tr>
+            <td>25</td>
+            <td>J</td>
+        </tr>
+        <tr>
+            <td>34</td>
+            <td>K</td>
+        </tr>
+        <tr>
+            <td>35</td>
+            <td>L</td>
+        </tr>
+        <tr>
+            <td>45</td>
+            <td>M</td>
+        </tr>
+        <tr>
+            <td>123</td>
+            <td>N</td>
+        </tr>
+        <tr>
+            <td>124</td>
+            <td>P</td>
+        </tr>
+        <tr>
+            <td>125</td>
+            <td>Q</td>
+        </tr>
+        <tr>
+            <td>134</td>
+            <td>R</td>
+        </tr>
+        <tr>
+            <td>135</td>
+            <td>S</td>
+        </tr>
+        <tr>
+            <td>145</td>
+            <td>T</td>
+        </tr>
+        <tr>
+            <td>234</td>
+            <td>V</td>
+        </tr>
+        <tr>
+            <td>235</td>
+            <td>W</td>
+        </tr>
+        <tr>
+            <td>245</td>
+            <td>X</td>
+        </tr>
+        <tr>
+            <td>345</td>
+            <td>Y</td>
+        </tr>
+        <tr>
+            <td>1234</td>
+            <td>Z</td>
+        </tr>
+        <tr>
+            <td>1235</td>
+            <td>!</td>
+        </tr>
+        <tr>
+            <td>1245</td>
+            <td>?</td>
+        </tr>
+        <tr>
+            <td>1345</td>
+            <td>,</td>
+        </tr>
+        <tr>
+            <td>2345</td>
+            <td>.</td>
+        </tr>
+        <tr>
+            <td>12345</td>
+            <td>Space</td>
+        </tr>
+    </table>
+    
+
+
+
+    <script src="./scripts/main.js"></script>
+</body>
+</html>
