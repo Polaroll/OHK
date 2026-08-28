@@ -1,0 +1,2 @@
+PyInstaller: The most popular choice. It bundles your code and Tkinter into a single executable folder or file.
+py2app: A Mac-specific tool. It creates a native macOS .app bundle that looks like a standard Mac application.
