@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Guided, interactive lessons for learning the five-finger one-handed keyboard.">
+    <title>Learn · One Handed Keyboard</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/learn.css">
+</head>
+<body>
+    <header class="site-header">
+        <a class="brand" href="index.html">OHK <span>Practice</span></a>
+        <nav class="header-nav" aria-label="Site">
+            <a class="header-link" href="index.html">Free practice</a>
+            <a class="header-link" href="learn.html" aria-current="page">Learn</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="intro" aria-labelledby="page-title">
+            <p class="intro-mark">Guided lessons</p>
+            <h1 id="page-title">Learn one chord at a time.</h1>
+            <p class="intro-copy">
+                Start with vowels, then build up to full words. Hold the fingers shown, release them together,
+                and get instant feedback. Your keys follow the bindings from the
+                <a href="index.html#setup-title">practice page</a>.
+            </p>
+        </section>
+
+        <section class="learn-layout">
+            <nav class="lesson-panel" aria-labelledby="lessons-title">
+                <h2 id="lessons-title">Lessons</h2>
+                <ol class="lesson-list" id="lesson-list"></ol>
+                <button class="text-button" type="button" id="reset-progress">Reset progress</button>
+            </nav>
+
+            <section class="session-panel" aria-labelledby="lesson-title">
+                <div class="section-heading">
+                    <h2 id="lesson-title">Choose a lesson</h2>
+                    <p id="lesson-desc"></p>
+                </div>
+
+                <div class="session" id="session" hidden>
+                    <p class="progress-line">
+                        <span id="progress-text"></span>
+                        <span id="accuracy-text"></span>
+                    </p>
+                    <div class="progress-bar" aria-hidden="true"><span id="progress-fill"></span></div>
+
+                    <div class="target" id="target" aria-label="Target text"></div>
+
+                    <div class="finger-row" id="finger-row" role="group" aria-label="Fingers for the current chord"></div>
+                    <p class="hint-line" id="hint-line"></p>
+
+                    <div class="capture-zone" id="capture" tabindex="0" role="application" aria-describedby="capture-help">
+                        <span class="status-dot" aria-hidden="true"></span>
+                        <span id="capture-text">Click here or press Start to begin.</span>
+                    </div>
+                    <p class="field-help" id="capture-help">
+                        Hold the keys, then release them all together. Press Escape to cancel a chord.
+                    </p>
+
+                    <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+
+                    <div class="action-row">
+                        <label class="check-label">
+                            <input type="checkbox" id="show-hints" checked> Show finger hints
+                        </label>
+                    </div>
+                </div>
+
+                <div class="summary" id="summary" hidden>
+                    <h3 id="summary-title"></h3>
+                    <p id="summary-text"></p>
+                    <div class="action-row">
+                        <button class="primary-button" type="button" id="next-lesson">Next lesson</button>
+                        <button class="secondary-button" type="button" id="retry-lesson">Try again</button>
+                    </div>
+                </div>
+
+                <div class="action-row" id="start-row">
+                    <button class="primary-button" type="button" id="start-lesson" disabled>Start lesson</button>
+                </div>
+            </section>
+        </section>
+    </main>
+
+    <footer>
+        <p>One Handed Keyboard practice tool</p>
+    </footer>
+
+    <script src="scripts/chords.js"></script>
+    <script src="scripts/learn.js"></script>
+</body>
+</html>
