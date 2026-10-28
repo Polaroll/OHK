@@ -1,224 +1,230 @@
-// def main():
-    
-//     print()
+const DEFAULT_BINDINGS = ["b", "u", "i", "o", "p"];
 
-//     user_msg = input("Input OHK message to translate: ")
-//     user_msg_list = convert_msg_to_list(user_msg)
-//     translated_msg = translate_msg(user_msg_list)
+const CHORDS = {
+    "1": "a",
+    "2": "e",
+    "3": "i",
+    "4": "o",
+    "5": "u",
+    "12": "b",
+    "13": "c",
+    "14": "d",
+    "15": "f",
+    "23": "g",
+    "24": "h",
+    "25": "j",
+    "34": "k",
+    "35": "l",
+    "45": "m",
+    "123": "n",
+    "124": "p",
+    "125": "q",
+    "134": "r",
+    "135": "s",
+    "145": "t",
+    "234": "v",
+    "235": "w",
+    "245": "x",
+    "345": "y",
+    "1234": "z",
+    "1235": "!",
+    "1245": "?",
+    "1345": ",",
+    "2345": ".",
+    "12345": " "
+};
 
+const bindingInputs = [...document.querySelectorAll(".binding input")];
+const bindingRows = [...document.querySelectorAll(".binding")];
+const input = document.querySelector("#input");
+const output = document.querySelector("#output");
+const bindingMessage = document.querySelector("#binding-message");
+const captureStatus = document.querySelector("#capture-status");
+const statusText = document.querySelector("#status-text");
+const keyTableBody = document.querySelector("#key-table-body");
+const focusCaptureButton = document.querySelector("#focus-capture");
+const clearOutputButton = document.querySelector("#clear-output");
+const resetBindingsButton = document.querySelector("#reset-bindings");
 
-const input = document.querySelector('#input');
-const output = document.querySelector('#output')
-// var msg = []
-// msg = convertMessageToArray(input.value);
+const activeKeys = new Set();
+const chordKeys = new Set();
+const enteredChords = [];
 
+let bindings = new Map();
+let bindingsAreValid = true;
 
-input.addEventListener('keydown', tracker);
-input.addEventListener('keyup', updateInput);
+function normaliseKey(key) {
+    return key.toLowerCase();
+}
 
-const finger1 = document.querySelector('#finger-1').value
-const finger2 = document.querySelector('#finger-2').value
-const finger3 = document.querySelector('#finger-3').value
-const finger4 = document.querySelector('#finger-4').value
-const finger5 = document.querySelector('#finger-5').value
+function getBindings() {
+    return bindingInputs.map((inputElement) => normaliseKey(inputElement.value.trim()));
+}
 
+function updateBindings() {
+    const values = getBindings();
+    const invalidValue = values.some((value) => value.length !== 1);
+    const hasDuplicates = new Set(values).size !== values.length;
 
+    if (invalidValue || hasDuplicates) {
+        bindingsAreValid = false;
+        bindingMessage.textContent = invalidValue
+            ? "Enter one character for every finger."
+            : "Each finger needs a different key.";
+        bindingMessage.classList.add("is-error");
+        return;
+    }
 
-var msg = []
-var numberMsg = []
-var outputMsg = []
+    bindingsAreValid = true;
+    bindings = new Map(values.map((value, index) => [value, index + 1]));
+    bindingMessage.textContent = "Your key bindings are ready.";
+    bindingMessage.classList.remove("is-error");
+}
 
-const acceptedKeys = [
-    finger1, finger2, finger3, finger4, finger5
-]
-var numTracker = 0;
+function setStatus(message, isActive = false) {
+    statusText.textContent = message;
+    captureStatus.classList.toggle("is-active", isActive);
+}
 
-function tracker(event) {
-    if (acceptedKeys.includes(event.key)) {
-        numTracker += 1;
-        console.log(event.key);
-        console.log(numTracker);
+function updatePressedBindings() {
+    bindingRows.forEach((row, index) => {
+        const key = bindingInputs[index].value;
+        row.classList.toggle("is-pressed", activeKeys.has(normaliseKey(key)));
+    });
+}
+
+function updateTranslation() {
+    input.value = enteredChords.map((entry) => entry.keys.join(" + ")).join("  |  ");
+    output.value = enteredChords.map((entry) => entry.letter).join("");
+}
+
+function completeChord() {
+    const fingerPositions = [...chordKeys]
+        .map((key) => bindings.get(key))
+        .sort((left, right) => left - right)
+        .join("");
+
+    const letter = CHORDS[fingerPositions];
+    if (letter) {
+        enteredChords.push({ keys: [...chordKeys].sort(), letter });
+        updateTranslation();
+        setStatus(`Translated ${letter === " " ? "a space" : `"${letter}"`}. Ready for the next chord.`);
+    }
+
+    chordKeys.clear();
+}
+
+function resetActiveChord(message = "Current chord cancelled. Ready when you are.") {
+    activeKeys.clear();
+    chordKeys.clear();
+    updatePressedBindings();
+    setStatus(message);
+}
+
+function handleKeyDown(event) {
+    if (!bindingsAreValid || document.activeElement !== input) {
+        return;
+    }
+
+    const key = normaliseKey(event.key);
+
+    if (key === "escape") {
+        event.preventDefault();
+        resetActiveChord();
+        return;
+    }
+
+    if (key === "backspace") {
+        event.preventDefault();
+        enteredChords.pop();
+        updateTranslation();
+        setStatus("Removed the last chord.");
+        return;
+    }
+
+    if (!bindings.has(key)) {
+        return;
+    }
+
+    event.preventDefault();
+    if (event.repeat || activeKeys.has(key)) {
+        return;
+    }
+
+    activeKeys.add(key);
+    chordKeys.add(key);
+    updatePressedBindings();
+    setStatus(`Holding ${[...chordKeys].sort().join(" + ")}. Release all keys to translate.`, true);
+}
+
+function handleKeyUp(event) {
+    if (!bindingsAreValid || document.activeElement !== input) {
+        return;
+    }
+
+    const key = normaliseKey(event.key);
+    if (!bindings.has(key)) {
+        return;
+    }
+
+    event.preventDefault();
+    activeKeys.delete(key);
+    updatePressedBindings();
+
+    if (activeKeys.size === 0 && chordKeys.size > 0) {
+        completeChord();
     }
 }
 
-function updateInput(event){
-    if (acceptedKeys.includes(event.key)) {
-        numTracker -= 1
-        console.log(numTracker);
-        if (numTracker === 0){
-            input.value += ' ';
-            msg = convertMessageToArray(input.value);
-            console.log(msg);
-            numberMsg = convertMessageToNumbers(msg);
-            console.log(numberMsg);
-            const processing = combineNumbers(numberMsg);
-            outputMsg = translateMsg(processing)
-            output.value = ''
-            for (letter of outputMsg) {
-                output.value += letter
-            }
-        }
-    }
-    else if (event.key === 'Control') {
-        numTracker = 0;
-    }
- }
+function renderKeyTable() {
+    keyTableBody.replaceChildren(
+        ...Object.entries(CHORDS).map(([fingering, letter]) => {
+            const row = document.createElement("tr");
+            const fingeringCell = document.createElement("td");
+            const letterCell = document.createElement("td");
 
-function convertMessageToArray(userMsg) {
-    const msgArray = Array.from(userMsg);
-    msg = msgArray.filter(x => x !== ' ');
-    return msgArray;
+            fingeringCell.textContent = fingering;
+            letterCell.textContent = letter === " " ? "Space" : letter.toUpperCase();
+            row.append(fingeringCell, letterCell);
+            return row;
+        })
+    );
 }
 
-function convertMessageToNumbers(array) {
-    const newArray = [];
-    for(letter of array) {
-        switch (letter) {
-            case finger1:
-                newArray.push(1)
-                break
-            case finger2:
-                newArray.push(2)
-                break
-            case finger3:
-                newArray.push(3)
-                break
-            case finger4:
-                newArray.push(4)
-                break
-            case finger5:
-                newArray.push(5)
-                break
-            case ' ':
-                newArray.push(' ')
-        }
-    }
-    return newArray;
-}
+bindingInputs.forEach((inputElement) => {
+    inputElement.addEventListener("input", () => {
+        inputElement.value = normaliseKey(inputElement.value.slice(-1));
+        updateBindings();
+        resetActiveChord("Bindings updated. Focus the practice area to continue.");
+    });
+});
 
-function combineNumbers(array) {
-    const numArray = []
-    var newArray = [];
-    for (element of array) {
-        if (!(element === ' ')) {
-            newArray.push(element);
-            console.log(newArray)
-        }
-        else {
-            newArray.sort()
-            const string = newArray.join('')
-            const number = parseInt(string)
-            if (number > 0) {
-                numArray.push(number)
-            }
-            newArray = []
-        }
+focusCaptureButton.addEventListener("click", () => {
+    if (bindingsAreValid) {
+        input.focus();
+        setStatus("Practice area focused. Hold a chord to begin.");
     }
-    console.log(numArray)
-    return numArray
-}
-        
-function translateMsg(msgArray) {
-    const translatedMsg = []
+});
 
-    for (number of msgArray) {
-        var letter = ''
-        switch (number) {
-            case 1:
-                letter = 'a'
-                break
-            case 2:
-                letter = 'e'
-                break
-            case 3:
-                letter = 'i'
-                break
-            case 4:
-                letter = 'o'
-                break
-            case 5:
-                letter = 'u'
-                break
-            case 12:
-                letter = 'b'
-                break
-            case 13:
-                letter = 'c'
-                break
-            case 14:
-                letter = 'd'
-                break
-            case 15:
-                letter = 'f'
-                break
-            case 23:
-                letter = 'g'
-                break
-            case 24:
-                letter = 'h'
-                break
-            case 25:
-                letter = 'j'
-                break
-            case 34:
-                letter = 'k'
-                break
-            case 35:
-                letter = 'l'
-                break
-            case 45:
-                letter = 'm'
-                break
-            case 123:
-                letter = 'n'
-                break
-            case 124:
-                letter = 'p'
-                break
-            case 125:
-                letter = 'q'
-                break
-            case 134:
-                letter = 'r'
-                break
-            case 135:
-                letter = 's'
-                break
-            case 145:
-                letter = 't'
-                break
-            case 234:
-                letter = 'v'
-                break
-            case 235:
-                letter = 'w'
-                break
-            case 245:
-                letter = 'x'
-                break
-            case 345:
-                letter = 'y'
-                break
-            case 1234:
-                letter = 'z'
-                break
-            case 1235:
-                letter = "!"
-                break
-            case 1245:
-                letter = "?"
-                break
-            case 1345:
-                letter = ","
-                break
-            case 2345:
-                letter = "."
-                break
-            case 12345:
-                letter = " "
-                break
-        }
-        translatedMsg.push(letter)
-    }
-    return translatedMsg
-}
+clearOutputButton.addEventListener("click", () => {
+    enteredChords.length = 0;
+    updateTranslation();
+    resetActiveChord("Your practice text is clear.");
+    input.focus();
+});
+
+resetBindingsButton.addEventListener("click", () => {
+    bindingInputs.forEach((inputElement, index) => {
+        inputElement.value = DEFAULT_BINDINGS[index];
+    });
+    updateBindings();
+    resetActiveChord("Default keys restored. Focus the practice area to begin.");
+});
+
+input.addEventListener("keydown", handleKeyDown);
+input.addEventListener("keyup", handleKeyUp);
+input.addEventListener("blur", () => resetActiveChord("Practice paused. Focus the input area to continue."));
+window.addEventListener("blur", () => resetActiveChord("Practice paused. Focus the input area to continue."));
+
+updateBindings();
+renderKeyTable();
