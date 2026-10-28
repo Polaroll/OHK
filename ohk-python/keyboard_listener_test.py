@@ -3,7 +3,7 @@ from pynput import keyboard
 def on_press(key):
     try:
         # Attempt to print the character associated with the key
-        print(f'Key {key.char!r} pressed')
+        print(f'Key {key.char} pressed')
     except AttributeError:
         # If the key doesn't have a char attribute (e.g., special keys)
         print(f'Special key {key} pressed')
