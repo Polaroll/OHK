@@ -12,3 +12,5 @@ Documentation (in the docs/ folder):
 - docs/OHK Interface Design.pdf - interface design
 - docs/Key Press Alphabet.xlsx - key combination assignments
 - docs/notes.txt - development notes
+
+https://polaroll.github.io/OHK/
