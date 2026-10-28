@@ -69,6 +69,11 @@ textarea {
     font-weight: 600;
 }
 
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
 .header-link {
     color: var(--ink-soft);
     font-size: 0.92rem;
@@ -416,7 +421,7 @@ footer p {
 }
 
 @media (max-width: 420px) {
-    .header-link {
+    .header-link-secondary {
         display: none;
     }
 

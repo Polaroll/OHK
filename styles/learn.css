@@ -1,0 +1,259 @@
+.intro-copy a {
+    color: var(--teal-dark);
+    font-weight: 700;
+}
+
+.header-link[aria-current="page"] {
+    color: var(--teal-dark);
+}
+
+.learn-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 1.3fr);
+    gap: 20px;
+    align-items: start;
+}
+
+.lesson-panel,
+.session-panel {
+    padding: clamp(24px, 4vw, 36px);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    box-shadow: var(--shadow);
+}
+
+.lesson-list {
+    display: grid;
+    gap: 8px;
+    margin: 0 0 16px;
+    padding: 0;
+    list-style: none;
+}
+
+.lesson-button {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    width: 100%;
+    gap: 2px 10px;
+    padding: 11px 13px;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: var(--ink);
+    background: var(--surface-muted);
+    text-align: left;
+    cursor: pointer;
+}
+
+.lesson-button:hover {
+    border-color: var(--line);
+}
+
+.lesson-button[aria-current="true"] {
+    border-color: var(--teal);
+    background: var(--teal-pale);
+}
+
+.lesson-name {
+    font-weight: 800;
+}
+
+.lesson-meta {
+    grid-column: 1 / -1;
+    color: var(--ink-soft);
+    font-size: 0.82rem;
+}
+
+.lesson-badge {
+    color: var(--teal-dark);
+    font-size: 0.82rem;
+    font-weight: 800;
+}
+
+.progress-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 6px;
+    color: var(--ink-soft);
+    font-size: 0.88rem;
+    font-weight: 700;
+}
+
+.progress-bar {
+    height: 8px;
+    overflow: hidden;
+    border-radius: 99px;
+    background: var(--surface-muted);
+    border: 1px solid var(--line);
+}
+
+.progress-bar span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--teal);
+    transition: width 0.2s;
+}
+
+.target {
+    margin: 26px 0 18px;
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: clamp(2rem, 7vw, 3.4rem);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+    overflow-wrap: anywhere;
+}
+
+.target .ch {
+    display: inline-block;
+    min-width: 0.7em;
+    border-bottom: 4px solid transparent;
+    color: var(--ink-soft);
+    text-align: center;
+}
+
+.target .ch.is-done {
+    color: var(--teal-dark);
+}
+
+.target .ch.is-current {
+    color: var(--ink);
+    border-bottom-color: #f6a609;
+}
+
+.finger-row {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.finger {
+    display: grid;
+    justify-items: center;
+    padding: 10px 4px;
+    border: 2px solid var(--line);
+    border-radius: 10px;
+    background: var(--surface-muted);
+    color: var(--ink-soft);
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.finger strong {
+    font-family: "Cascadia Mono", Consolas, monospace;
+    font-size: 1.5rem;
+    color: var(--ink);
+}
+
+.finger.is-needed {
+    border-color: var(--teal);
+    background: var(--teal-pale);
+}
+
+.finger.is-needed::after {
+    content: "press";
+    color: var(--teal-dark);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+}
+
+.finger.is-pressed {
+    border-color: var(--ink);
+    box-shadow: inset 0 -5px 0 var(--teal);
+}
+
+.hint-line {
+    margin: 12px 0 18px;
+    color: var(--ink-soft);
+    font-size: 0.9rem;
+    min-height: 1.4em;
+}
+
+.capture-zone {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 14px;
+    border: 2px dashed var(--line);
+    border-radius: 10px;
+    background: var(--surface-muted);
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.capture-zone:focus {
+    border-style: solid;
+    border-color: var(--teal);
+    background: var(--surface);
+}
+
+.capture-zone.is-active .status-dot {
+    animation: pulse 1.4s ease-out infinite;
+}
+
+.feedback {
+    min-height: 1.6em;
+    margin: 12px 0 0;
+    font-weight: 800;
+}
+
+.feedback.is-good {
+    color: var(--teal-dark);
+}
+
+.feedback.is-bad {
+    color: var(--danger);
+}
+
+.check-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.check-label input {
+    width: 20px;
+    height: 20px;
+}
+
+.summary {
+    padding: 18px;
+    border-radius: 12px;
+    background: var(--teal-pale);
+}
+
+.summary h3 {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+}
+
+#start-row {
+    margin-top: 20px;
+}
+
+@media (max-width: 760px) {
+    .learn-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .lesson-panel,
+    .session-panel {
+        border-radius: 14px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .progress-bar span {
+        transition: none;
+    }
+
+    .capture-zone.is-active .status-dot {
+        animation: none;
+    }
+}
